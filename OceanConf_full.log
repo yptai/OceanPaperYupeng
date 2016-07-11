@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2016.5.13)  11 JUL 2016 14:29
+This is XeTeX, Version 3.14159265-2.6-0.99992 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2016.5.13)  11 JUL 2016 16:22
 entering extended mode
 **./OceanConf_full.tex
 (OceanConf_full.tex
@@ -566,69 +566,76 @@ File: fig/mapper.pdf Graphic file (type QTm)
 File: fig/punturing.pdf Graphic file (type QTm)
 
 <use  "fig/punturing.pdf" > [2]
-Underfull \hbox (badness 10000) in paragraph at lines 301--303
+Underfull \hbox (badness 10000) in paragraph at lines 302--304
 \OT1/ptm/m/n/10 Further break the sub-vectors $[][]$ into
  []
 
 
-Underfull \hbox (badness 2126) in paragraph at lines 301--303
+Underfull \hbox (badness 2126) in paragraph at lines 302--304
 \OML/cmm/m/it/10 y[]; y[]; :::; y[]$\OT1/ptm/m/n/10 , we could get the fi-nal c
 ost
  []
 
-[3]
-Invalid UTF-8 byte or sequence at line 417 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 417 replaced by U+FFFD.
+
+Underfull \vbox (badness 1117) has occurred while \output is active []
+
+ [3]
+Invalid UTF-8 byte or sequence at line 418 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 418 replaced by U+FFFD.
 File: fig/PorakisBCchannelResponse.eps Graphic file (type eps)
- <fig/PorakisBCchannelResponse.eps>
-Invalid UTF-8 byte or sequence at line 426 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 426 replaced by U+FFFD.
+
+<fig/PorakisBCchannelResponse.eps>
+Invalid UTF-8 byte or sequence at line 427 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 427 replaced by U+FFFD.
 File: fig/ChAQPSKComparison.eps Graphic file (type eps)
  <fig/ChAQPSKComparison.eps>
-Invalid UTF-8 byte or sequence at line 433 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 433 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 434 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 434 replaced by U+FFFD.
 File: fig/ChBQPSKComparison.eps Graphic file (type eps)
 
 <fig/ChBQPSKComparison.eps>
-Invalid UTF-8 byte or sequence at line 440 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 440 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 441 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 441 replaced by U+FFFD.
 File: fig/ChCQPSKComparison.eps Graphic file (type eps)
  <fig/ChCQPSKComparison.eps>
-Invalid UTF-8 byte or sequence at line 447 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 447 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 448 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 448 replaced by U+FFFD.
 File: fig/16QAMComparison.eps Graphic file (type eps)
 
 <fig/16QAMComparison.eps>
-Overfull \hbox (0.94499pt too wide) in paragraph at lines 447--448
+Overfull \hbox (0.94499pt too wide) in paragraph at lines 448--449
  [][] 
  []
+
+
+LaTeX Warning: Text page 4 contains only floats.
 
 [4]
-Invalid UTF-8 byte or sequence at line 463 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 463 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 464 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 464 replaced by U+FFFD.
 File: fig/ShallowChannel.eps Graphic file (type eps)
  <fig/ShallowChannel.eps>
-Overfull \hbox (0.94499pt too wide) in paragraph at lines 463--464
+Overfull \hbox (0.94499pt too wide) in paragraph at lines 464--465
  [][] 
  []
 
-Invalid UTF-8 byte or sequence at line 470 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 470 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 471 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 471 replaced by U+FFFD.
 File: fig/ShallowQPSKComparison.eps Graphic file (type eps)
 <fig/ShallowQPSKComparison.eps>
-Overfull \hbox (0.94499pt too wide) in paragraph at lines 470--471
+Overfull \hbox (0.94499pt too wide) in paragraph at lines 471--472
  [][] 
  []
 
-Invalid UTF-8 byte or sequence at line 480 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 480 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 481 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 481 replaced by U+FFFD.
 File: fig/DeepChannel.eps Graphic file (type eps)
 <fig/DeepChannel.eps>
-Invalid UTF-8 byte or sequence at line 488 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 488 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 489 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 489 replaced by U+FFFD.
 File: fig/DeepQPSKComparison.eps Graphic file (type eps)
  <fig/DeepQPSKComparison.eps>
-Overfull \hbox (0.94499pt too wide) in paragraph at lines 488--489
+Overfull \hbox (0.94499pt too wide) in paragraph at lines 489--490
  [][] 
  []
 
@@ -646,18 +653,14 @@ Before submitting the final camera ready copy, remember to:
 
 [6
 
-] (OceanConf_full.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+] (OceanConf_full.aux) ) 
 Here is how much of TeX's memory you used:
  13651 strings out of 428721
  272581 string characters out of 3164046
- 318574 words of memory out of 3000000
+ 318718 words of memory out of 3000000
  16816 multiletter control sequences out of 15000+200000
  28729 words of font info for 66 fonts, out of 3000000 for 9000
  1099 hyphenation exceptions out of 8191
- 55i,15n,61p,1291b,1536s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,15n,61p,1471b,1536s stack positions out of 5000i,500n,10000p,200000b,50000s
 
 Output written on OceanConf_full.pdf (6 pages).
