@@ -90,6 +90,8 @@
 % *** MATH PACKAGES ***
 %
 \usepackage{amsmath}
+\usepackage{bm}
+\usepackage{amssymb}
 \interdisplaylinepenalty=2500
 
 
@@ -181,7 +183,7 @@ Beijing, China}}
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
-For the optimal intersymbol interference(ISI) cancelling over the highly frequency-selective underwater acoustic channel(UAC), a large interleaver block is required by the classical iterative joint equalization and decoding. The long interleaver block length could  lower the correlation between the soft informations which the equalizer pass on the decoder. However, it brings in additional deteriorations when the length is longer than the channel coherence  time of UAC. Therefore, it rises great interest to seek for a scheme that could cancelling the major ISI with a short code block. This paper provide a novel attempt to solve this problem by proposing a non-iterating joint equalization and decoding scheme using the modified spinal code. The linear-complexity approximate maximum likelihood(ML) estimation is used in the scheme. It's efficient even over the large delay spread channels.  For most channels with different level of frequency-selectivity, the proposed scheme provides competitive  performance. Simulation results show that the proposed scheme achieve a higher bit error rate(BER) performance than the Turbo equalization with the same code block length, especially for high spectral efficiency modulations. Simulations of proposed scheme over UAC extract form actual sea experiments is present at the end of this paper which shows the  excellent performances consistent with the universal frequency-selective channel results.
+Intersymbol interference (ISI) cancellation over frequency-selective underwater acoustic channel (UAC) is usually performed efficiently using iterative equalization. To this aim, an interleaver is required between the error correction scheme and the modulation scheme, and the longer the interleaver block length the better the performance. However, in the case of time-varying UAC, the length of the interleaver should not be higher than the channel coherence time, thus limiting the performance. Hence, for time-varying UAC with a low coherence time, small interleaver block length have to be used. In this paper, we propose a small block length coding scheme and its associate joint equalization and decoding algorithm based on Spinal codes. We show its efficiency over static large delay spread channels and static UAC: more precisely, simulation results show that the proposed scheme achieves a higher bit error rate than the Turbo equalization scheme with the same block length, especially for high spectral efficiency modulations. Simulations of proposed scheme over UAC obtained from underwater sea experiments are also presented which show the  promising performances.
 \end{abstract}
 
 % no keywords
@@ -203,115 +205,136 @@ For the optimal intersymbol interference(ISI) cancelling over the highly frequen
 %------------------------------------------------------------------------------------------
 \section{Introduction}
 % no \IEEEPARstart
-The UAC is known as a time-varying intersymbol interference(ISI) channel. In the area of underwater acoustic communication, ISI cancelling is always an active topic. A turbo equalizer\cite{douillard1995iterative}
-allows the receiver to benefit from the channel decoder gain by using a iterative process joint the equalizer and decoder. The equalizer produce the estimates of transmitted symbols using different methods. The maximum likelihood (ML) estimation is the optimal method in getting the minimum BER. However, the complexity of such methods often remains significantly high, especially for channels with large delay spread like the UAC. So some linear optimization algorithms are selected such as zero forcing (ZF) or minimum mean squared error (MMSE) estimation.   
-Results shows that the linear MMSE(LE-MMSE) turbo equalizer could completely remove the ISI for a time-invariant and averagely frequency-selective channel with acceptable complexity \cite{laot2001turbo}. However, it's hard for the LE-MMSE  turbo equalizer to achieve a satisfied performance for the highly frequency-selective channels unless the interleaver block  is very long. While, on the other hand, if the interleaving block is longer than the coherence  time of UAC, an additional deterioration draws into because the varying of channel. This is a practical contradiction in using the LE-MMSE Turbo equalization for UAC.
+Underwater Acoustic Channels (UACs) are known as to be very difficult telecommunication channel, due to time-varying long intersymbol interferences (ISI), making ISI cancellation an active topic for UAC digital communications. Turbo equalization\cite{douillard1995iterative} can be performed to improve the error rate performance for ISI-transmissions: an interleaver is implemented between the error correction scheme and the modulation.
+In a turbo-equalization receiver, the performance benefits from the interleaver gain through an iterative process between the equalizer and the decoder. The equalizer produces the estimates of the transmitted symbols using different methods. The maximum likelihood (ML) estimation is the optimal method in getting the minimum bit error rate (BER). However, the complexity of such methods is often to high to be implemented, especially for channels with large delay spread like UACs. Lower complexity equalizer like linear optimization algorithms are then implemented, such as zero forcing (ZF) or minimum mean squared error (MMSE) estimation.
+Results shows that the linear MMSE (LE-MMSE) turbo equalizer could completely remove the ISI for a time-invariant frequency-selective channel with an acceptable complexity \cite{laot2001turbo,1006557}, providing that the interleaver block length is sufficiently long as the delay spread of the considered UAC is high. On the other hand, for time-varying channels, increasing the interleaver block length above the coherence time  of the channel will occur a dramatic loss in performance since the channel is usually assumed to be constant for the block length for non-adaptive equalization which is considered in this paper. So the question is: how to improve the equalization performance when the coherence time of the UAC is low, if the interleaver length cannot be increased?
 
+In this paper, a novel joint non-adaptive equalization and decoding scheme based on a modified fixed-rate spinal code is proposed. It aims to provide an acceptable performance for a large range of channels using short block-length codes.  
+Spinal codes have been proposed recently in \cite{perry2012spinal} as a new class of non-linear error correction codes based on
+random number generators and  pseudo-random hash functions.
+There are two aspects within spinal codes which are quite different from popular channel codes. First, an invertible hash function is used which makes graphical or algebraic decoding impossible: the decoding method of spinal code is based on a tree structure algorithm. As the powerful mixing effect of hash function, the near-ML decoder is quite efficient. This is also the foundation of the proposed approximate joint equalization and decoding method achieve an interesting performance-complexity trade-off even for long delay spread channels.  
+The second aspect is that the decoding complexity is not increasing when the constellation size of the modulation is increasing. These two features of spinal codes make them a good candidate for joint decoding and equalizing in a single pass, that is to say without the need of iterating the decoding process.
 
-In this paper, a novel joint equalization and decoding scheme based on a modified fixed-rate spinal code is proposed. It is aimed to provide a acceptable performance for a large range of channels using a short code block length.  
-
-Spinal code is newly designed \cite{perry2012spinal}
-random number generator based channel coding method. Its core idea is sequentially apply the pseudo-random hash function to generate a set of original seed numbers which is used to seed a pseudo-random mapping function to produce symbols for transmission. 
-
-There is two aspects of the spinal code which is quite different with the previous channel codes. First, it uses the invertible hash function which makes it impossible to  implement the graphical or algebraic decoding method as previous codes. So the decoding method of spinal code is an tree structure algorithm with the approximate maximum likelihood(ML) estimation method. As the powerful mixing effect of hash function, the approximate ML decoder is quite efficient. This is also the foundation that makes the proposed approximate joint equalization and decoding method could achieve a satisfactory performance within linear time complexity even for the channel with large delay spread.  
-Another difference is that it encode the bits directly to constellation symbols and decoding the bits with the hard information directly extract from the symbols. Benefit from this point and the sequential structure of decoder, it's easy to combine the equalization with the process of decoding without using an iteration scheme and avoid the loss during the conversion from the symbols to soft information.  
+The remainder of this paper is organized as follows: in Section~\ref{sec:TXscheme}, the transmission scheme and the notations are introduced, together with the encoding of Spinal codes. In Section~\ref{sec:jointEqualization}, the joint decoder and equalizer is presented, and the performance results are detailed in Section~\ref{sec:results}. Some conclusions and perspectives are drawn in Section~\ref{sec:conclusion}. 
 %------------------------------------------------------------------------------------------
-\section{The Transmission Scheme}
-The transmission scheme is diagrammed by Fig.\ref{fig_tranScheme}, the core hash function part $H$ is fed by independent binary message date $m_k$ and produce a set of $v$-bits seeds $s_k$. After puncturing the remained set $\widehat{s}_k$ is took by the random mapper to generate the input symbols of frequency-selective channel $x_n$. 
-
-The signal is deteriorate by the frequency-selective channel and the AWGN noise $w_n$ with variance $\sigma^2_w$. The received channel output could represented by:
-\begin{equation}
-y_n=\sum_{l=0}^Lh_lx_{n-l}+w_n 
-\label{equ_yn}
-\end{equation}
-where $h_l$ are the coefficients of the discrete channel impulse response with the length of $L$. 
-
-The definition of signal-to-noise SNR in this paper is:
-\begin{equation}
-SNR=\frac{E_s}{N_0}
-\label{equ_snr}
-\end{equation}
-where $E_s$ is the mean energy of $y_n$. $N_0$ is the monolateral power spectral density of $w_n$.
-% to be continue
-% You must have at least 2 lines in the paragraph with the drop letter
-% (should never be an issue)	
-\begin{figure}[!t]
+\section{The Transmission Scheme} \label{sec:TXscheme}
+\begin{figure}[ht]
 \centering
-\includegraphics[width=3.0 in]{tranScheme.pdf}
+\includegraphics[width=0.9\columnwidth]{tranScheme.pdf}
 \caption{The transmission scheme}
 \label{fig_tranScheme}
 \end{figure}
-%------------------------------------------------------------------------------------------
-\section{The Modified Spinal Code}
-We implement a new kind of fixed-rate spinal code which is less complexity and more suitable for the combination with equalization.
-%------------------------------------------------------------------------------------------
-\subsection{Encoding Method}
-%------------------------------------------------------------------------------------------
-\subsubsection{Pseudo-Random Hash Function}
-The core of the spinal code is a recursive structure constructed by a pseudo-random hash function, . As shown in Fig. \ref{fig_hash}, the $H$ takes two inputs: a $v$-bits seed $s_{i-1}$ and one bit of message $m_i$ and returns a $v$-bits seed $s_i$ which is also the next input seed. Additionally, the initial seed value, $s_0$ is a constant value which is known to both the sender and the receiver.
-\begin{figure}[!t]
+\begin{figure}[ht]
 \centering
-\includegraphics[width=2 in]{encoderCore.pdf}
+\includegraphics[width=1.75 in]{encoderCore.pdf}
 \caption{The core hash structure}
 \label{fig_hash}
 \end{figure}
+The transmission scheme is illustrated in Fig.\ref{fig_tranScheme}. Though spinal codes were  proposed as rateless codes, we restrict the spinal code encoder to a fixed code rate denoted $R$. Length-$k$ blocks of independent information bits ${\bm m}$ are fed to a hash function denoted H which produces $k$ length-$v$ binary vector $\bm s_i,\,1\leq i \leq k$, referred to as the seeds. The generation of the seeds can be implemented as an iterative process illustrated in Fig.\ref{fig_hash}. The $k$ bits $m_i$ are fed to the H function which is seeded by $\bm s_{i-1}$. The output is seed $\bm s_i$. The process is initiated by seed $\bm s_0$ which is common to all messages $\bm m$ to be encoded and which is known by the receiver. The set of seeds $\bm s_i$ is then punctured by a factor $p$, meaning that one seed every $p$ seeds is forwarded to the next transmitter function. Hence the transmitted seeds are $\bm s_{pi+1}$ for $1\leq i \leq k$. After puncturing, the remaining seeds are used to feed a random number generator (RNG) to generate $q$ symbols per seed, denoted ${\bm x_i} = \{x_{i,j\}_{1\leq j \leq q}}$ for seed $\bm s_i$. We assume that the cardinal of the constellation is denoted by $2^c$, i.e. each symbol $x_{i,j}$ represents $c$ bits. One possible solution to generate the symbols to be transmitted is illustrated in Fig.\ref{fig_mapper} where the lowest significant bits of the random numbers are mapped to an I/Q constellation mapper.
+
+The coding rate of the transmission is given by $R=kp/cqk=p/cq$, and can thus be tuned over a wide range by varying the puncturing rate $p$, the constellation size $2^c$ or the number of symbols per seed $q$. Fig.\ref{fig_puncturing} illustrates the case where $k=6$, $p=3$ and $q=3$, that is a code rate $R=1/c$.
+
+
+The symbols $x_{i,j}$ are transmitted over a frequency-selective channel and corrupted by additive white Gaussian noise (AWGN) samples $w_n$ with variance $\sigma^2_w$. Let ${\bm x}$ be the concatenation of all the symbol vectors $\bm x_i$, and let $\bm y$ be vector of all the corresponding received samples. The received signal reads:
+\begin{equation}
+y_n=\sum_{l=0}^{L-1} h_l x_{n-l}+w_n 
+\label{equ_yn}
+\end{equation}
+where $h_l$ are the coefficients of the discrete channel impulse response of length $L$, $x_n$ and $y_n$ are the $n-$th element of vector $\bm x$ and $\bm y$ respectively, corresponding to the transmission of message $\bm m$.
+
+At the receiver side, the signal-to-noise ration is defined as:
+\begin{equation}
+\mbox{SNR}=\frac{E_s}{N_0}
+\label{equ_snr}
+\end{equation}
+where $E_s$ is the average energy of $y_n-w_n$ and where $N_0$ is the mono-lateral power spectral density of the Gaussian noise.
+% to be continue
+% You must have at least 2 lines in the paragraph with the drop letter
+% (should never be an issue)	
+
 %------------------------------------------------------------------------------------------
-\subsubsection{The Random Mapper}
+%\section{The Modified Spinal Code} \label{sec:spinalCodes}
+%We implement a new kind of fixed-rate spinal code which is less complexity and more suitable for the combination with equalization.
+%------------------------------------------------------------------------------------------
+%\subsection{Spinal codes Encoding}
+%------------------------------------------------------------------------------------------
+%\subsubsection{Pseudo-Random Hash Function}
+%The core of the spinal code is a recursive structure constructed by a pseudo-random hash function, . As shown in Fig. \ref{fig_hash}, the $H$ takes two inputs: a $v$-bits seed $s_{i-1}$ and one bit of message $m_i$ and returns a $v$-bits seed $s_i$ which is also the next input seed. Additionally, the initial seed value, $s_0$ is a constant value which is known to both the sender and the receiver.
 
-The set of $k$ seeds ($k$ is the length of the message) is used to seed a random mapper. There is a range of candidate  mapper method for the random mapper: it could be a combination of  a random number generator(RNG) and a usual mapper (constellation mapper for QAM or subcarrier mapper for OFDM, etc.) or directly use the random mapper methods such as Chaotic-FM modulation.
+%------------------------------------------------------------------------------------------
+%\subsubsection{The Random Mapper}
+%
+%The set of $k$ seeds ($k$ is the length of the message) is used to seed a random mapper. There is a range of candidate  mapper method for the random mapper: it could be a combination of  a random number generator(RNG) and a usual mapper (constellation mapper for QAM or subcarrier mapper for OFDM, etc.) or directly use the random mapper methods such as Chaotic-FM modulation.
+%
+%Our implementation is consisted with a random number generator and a constellation mapper as shown in Fig. \ref{fig_mapper} where C-mapper represent the constellation mapper and the $x_{i,1},x_{i,2},...,x_{i,q}$ is the output sub-block of $q$-symbols  under the seed of  $s_i$. Given that the bit per symbol number of mapper output is $c$, then the code rate $R=k/cqk=1/cq$.
 
-Our implementation is consisted with a random number generator and a constellation mapper as shown in Fig. \ref{fig_mapper} where C-mapper represent the constellation mapper and the $x_{i,1},x_{i,2},...,x_{i,q}$ is the output sub-block of $q$-symbols  under the seed of  $s_i$. Given that the bit per symbol number of mapper output is $c$, then the code rate $R=k/cqk=1/cq$.
-\begin{figure}[!t]
+%------------------------------------------------------------------------------------------
+%\subsubsection{Puncturing}
+%As the $q$ is a integer bigger than 1. So the maximum code rate of previous encoding structure is $1/c$ which is quite low when the SNR is high. 
+%
+%Puncturing maybe a good choice to conquer this problem. Instead of passing all the seeds on the mapper, the sender skips could some of the seeds with a preset puncturing pattern. Given the puncture rate is $p$, the code rate after puncturing turns into $R=p/cq$.
+%Benefit from the strongly sequential structure of the encode method. The spinal code could support high puncturing rate. This provide a larger rate adjusting range for the spinal code.
+%
+%In our implement the puncturing method is a kind of strided puncturing with the consistent strided distance $p$ whose puncturing pattern is $P=[b_1,b_2,...,b_p]$ where only $b_1=1$ and the rests are set to 0. 
+\begin{figure}[ht]
 \centering
-\includegraphics[width=3 in]{mapper.pdf}
+\includegraphics[width=0.9\columnwidth]{mapper.pdf}
 \caption{The random mapper}
 \label{fig_mapper}
 \end{figure}
-%------------------------------------------------------------------------------------------
-\subsubsection{Puncturing}
-As the $q$ is a integer bigger than 1. So the maximum code rate of previous encoding structure is $1/c$ which is quite low when the SNR is high. 
-
-Puncturing maybe a good choice to conquer this problem. Instead of passing all the seeds on the mapper, the sender skips could some of the seeds with a preset puncturing pattern. Given the puncture rate is $p$, the code rate after puncturing turns into $R=p/cq$.
-Benefit from the strongly sequential structure of the encode method. The spinal code could support high puncturing rate. This provide a larger rate adjusting range for the spinal code.
-
-In our implement the puncturing method is a kind of strided puncturing with the consistent strided distance $p$ whose puncturing pattern is $P=[b_1,b_2,...,b_p]$ where only $b_1=1$ and the rests are set to 0. 
-\begin{figure}[!t]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=3 in]{punturing.pdf}
 \caption{The puncturing structure}
 \label{fig_puncturing}
 \end{figure}
 %------------------------------------------------------------------------------------------
-\subsection{Approximate ML Decoder}
-The basic concept of the optimal ML decoder is 	redo the encoder with all the potential message bit sequences. And find the one with minimum distance from the received symbol set. So the ML rule for the AWGN channel is:
+
+
+
+%------------------------------------------------------------------------------------------
+\section{Joint Decoding and Equalization Scheme} \label{sec:jointEqualization}
+%--------------------------------------------------------------------------------------------
+
+\subsection{Near-ML Spinal Code Decoder} \label{sec:nearML}
+The best error rate can be obtained by maximum likelihood (ML) decoding when the transmitted information is uniformly distributed.
+ML decoding for sequences corrupted by AWGN is obtained by minimizing the euclidean distance between the received sequence and all the possibly transmitted sequences, that is:
 \begin{equation}
-\widehat{\textbf{m}}=\underset{\textbf{m}\in\{0,1\}^k}{\arg\min}\Vert\textbf{y}-\textbf{x}(\textbf{m})\Vert^2
+\widehat{\bm m}=\underset{{\bm m}\in\{0,1\}^k}{\arg\min}\Vert{\bm y}-{\bm x}({\bm m})\Vert^2
 \label{equ_ml}
 \end{equation}
-where $\textbf{y}$ is the received vector and $\textbf{x}(\textbf{m})$ is the transmitted symbols yield by encoder with message vector \textbf{m}.
+However the number of operations of ML decoding scales exponentially in $\mathcal{O}(2^k)$ with the information block length. Thus sub-optimal decoding algorithms are of interest. A sub-optimal algorithm for spinal codes decoding is also proposed in \cite{perry2012spinal} which is inspired by a popular complexity reduction named \emph{M-algorithm} \cite{Anderson1984}. The idea is to represent the spinal code encoding process as a bit-wise tree structure. For each new binary information to be encoded, two branches are defined (corresponding to a 0 or 1 information bit) connecting the same tree parent-leaf to 2 child leaves. For each child-leaf, a partial Euclidean distance can be computed. For each new information bit, the number of leaves is multiplied by a factor 2, resulting in $2^k$ leaves in the final tree.
 
-As the  symbols produced by the random-mappers seeded by the same $s_i$ would be coincident with each other, \textbf{y} could be decomposed into $\textbf{y}_1,\textbf{y}_2,...,\textbf{y}_{k/p}$ sub-victors who shares the same seeds. Disregarding the puncturing, the cost function would be:
-\begin{equation}
-\Vert\textbf{y}-\textbf{x}(\textbf{m})\Vert^2=\sum_{i=1}^{k}\Vert\textbf{y}_{i}-\textbf{x}_{i}(s_{i})\Vert^2
-\label{equ_cost0}
-\end{equation}
-Given the addition of $p$-rate strided puncturing and $t =(i-1)p+1$ which is index of the seed who generated $x_i$, the cost function changed into:
-\begin{equation}
-\sum_{i=1}^{\frac{k}{p}}\Vert\textbf{y}_{i}-\textbf{x}_{i}(s_{t})\Vert^2
-\label{equ_cost1}
-\end{equation}
-Further break the sub-vectors $\textbf{y}_i$ into $y_{(i-1)q+1},y_{(i-1)q+2},...,y_{qi}$, we could get the final  cost function:%add explaination
-\begin{equation}
-\sum_{i=1}^{\frac{k}{p}}\sum_{j=q(i-1)+1}^{qi}\vert y_{j}-x_{j}(s_{t})\vert^2
-\label{equ_cost2}
-\end{equation}
-Based on the cost function (\ref{equ_cost2}) and the sequential structure of the encoder. The ML decode of spinal code could be recast as a searching for the minimum distant path over a binary tree. The tree is rooted from $s_0$, each node has two edge $e_{m_i}(s_i,s_{i+1})$ connect to two children represent the two possible choices of input bit $m_i$. The total depth of the tree is $k$. So $2^k$ path should be take into count to construct such a binary tree for the optimal ML decoder. This is too complex. 
+Since the minimum Euclidean distance is to be found, a complexity reduction can be offered by selecting at each new information bit the leaves corresponding to the $B$ lowest Euclidean distances. Fig.\ref{fig_decoderTree} illustrates the complexity reduction algorithm when $B=2$ and $k=4$: the blue leaves represent the leaves corresponding to the lowest partial Euclidean distances, the black ones represent the pruned leaves (when the partial Euclidean distance is too high). The result of the decoder is then the sequence of bits corresponding to the minimum Euclidean distance among the $B$ remaining leaves of the last information bit, and it is illustrated by the red leaves in Fig.\ref{fig_decoderTree}.
 
-Fortunately, benefit from the hash function and random generators used, the simply classical approximate ML algorithm which is termed \textit{M-algorithm} in \cite{Anderson1984} shows near optimal performance within linear complexity. The main idea of this algorithm is only maintain $B$ subtrees and prune the rest within each depth increase on the tree. 
 
-Fig. \ref{fig_decoderTree} shows an example of decoder tree with $B$ equal to 2 where the blue node represent the remained, the black nodes represent the pruned and the path consist by red nodes is the final decision of the decoder.%new added
+%new added
+ 
+%As the  symbols produced by the random-mappers seeded by the same $s_i$ would be coincident with each other, \textbf{y} could be decomposed into $\textbf{y}_1,\textbf{y}_2,...,\textbf{y}_{k/p}$ sub-victors who shares the same seeds. Disregarding the puncturing, the cost function would be:
+%\begin{equation}
+%\Vert\textbf{y}-\textbf{x}(\textbf{m})\Vert^2=\sum_{i=1}^{k}\Vert\textbf{y}_{i}-\textbf{x}_{i}(s_{i})\Vert^2
+%\label{equ_cost0}
+%\end{equation}
+%Given the addition of $p$-rate strided puncturing and $t =(i-1)p+1$ which is index of the seed who generated $x_i$, the cost function changed into:
+%\begin{equation}
+%\sum_{i=1}^{\frac{k}{p}}\Vert\textbf{y}_{i}-\textbf{x}_{i}(s_{t})\Vert^2
+%\label{equ_cost1}
+%\end{equation}
+%Further break the sub-vectors $\textbf{y}_i$ into $y_{(i-1)q+1},y_{(i-1)q+2},...,y_{qi}$, we could get the final  cost function:%add explaination
+%\begin{equation}
+%\sum_{i=1}^{\frac{k}{p}}\sum_{j=q(i-1)+1}^{qi}\vert y_{j}-x_{j}(s_{t})\vert^2
+%\label{equ_cost2}
+%\end{equation}
+%Based on the cost function (\ref{equ_cost2}) and the sequential structure of the encoder.
 
-The \textit{M-algorithm} is simple but very efficient in decoding spinal code. That owe to the pairwise independence properties of hash function and random generators. That is, any pair of messages who have the same first $i$ bits and only different from the bits with index higher than $i$ will generated sets of symbols who have the same $iq$ symbols(ignore the puncturing). While their remained subsets are entirely independent with each other.
+%The ML decode of spinal code could be recast as a searching for the minimum distant path over a binary tree. The tree is rooted from $s_0$, each node has two edge $e_{m_i}(s_i,s_{i+1})$ connect to two children represent the two possible choices of input bit $m_i$. The total depth of the tree is $k$. So $2^k$ path should be take into count to construct such a binary tree for the optimal ML decoder. This is too complex. 
+%
+%Fortunately, benefit from the hash function and random generators used, the simply classical approximate ML algorithm which is termed \textit{M-algorithm} in \cite{Anderson1984} shows near optimal performance within linear complexity. The main idea of this algorithm is only maintain $B$ subtrees and prune the rest within each depth increase on the tree. 
+%
+%Fig. \ref{fig_decoderTree} shows an example of decoder tree with $B$ equal to 2 where the blue node represent the remained, the black nodes represent the pruned and the path consist by red nodes is the final decision of the decoder.%new added
+
+The \emph{M-algorithm} is simple but very efficient in decoding Spinal codes. This is mainly due to the non-linearity and the use of random generator and hash functions which make it possible to increase the distance between two coded sequences corresponding to two messages where most of the bits are identical.
+% pairwise independence property of the hash function and the random generators: any pair of messages having the same first information bits and only different from the bits with index higher than $i$ will generated sets of symbols who have the same $iq$ symbols(ignore the puncturing). While their remained subsets are entirely independent with each other.
 \begin{figure}
 \centering
 \begin{tikzpicture}
@@ -341,23 +364,25 @@ The \textit{M-algorithm} is simple but very efficient in decoding spinal code. T
 \caption{Tree structure of decoder}
 \label{fig_decoderTree}
 \end{figure}
-%------------------------------------------------------------------------------------------
-\section{Proposed Joint Decoding and Equalization Scheme}
-%--------------------------------------------------------------------------------------------
-\subsection{The Approximate ML joint Decoding and Equalization}
-Consider cost function (\ref{equ_cost2}) under frequency-selective channel expressed by (\ref{equ_yn}), we got the cost function under frequency-selective channel:
+
+\subsection{The Near-ML joint Decoding and Equalization}
+The tree-based low complexity decoding algorithm described in Section~\ref{sec:nearML} can be easily adapted to include the equalization step thanks to the knowledge of the channel coefficients which are assumed to be estimated perfectly. Based on Eq.(\ref{equ_ml}) and without considering any seed puncturing ($p=1$), the Euclidean distance is computed by:
+%\begin{equation}
+%\sum_{i=1}^{\frac{k}{p}}\sum_{j=q(i-1)+1}^{qi}\vert y_{j}-\sum_{l=1}^L x_{j-l}(s_{t})\vert^2
+%\label{equ_costEqu}
+%\end{equation}
 \begin{equation}
-\sum_{i=1}^{\frac{k}{p}}\sum_{j=q(i-1)+1}^{qi}\vert y_{j}-\sum_{l=1}^L x_{j-l}(s_{t})\vert^2
+\sum_{i=1}^{\frac{qk}{p}}\left\vert y_{i}-\sum_{l=1}^L h_l x_{i-l}\right\vert^2
 \label{equ_costEqu}
 \end{equation}
-where $t=\lfloor\frac{j-l}{q}\rfloor p+1$.
+%where $t=\lfloor\frac{j-l}{q}\rfloor p+1$.
 
-Base on (\ref{equ_costEqu}) and apply the approximate ML method \textit{M-algorithm} again. We got the tree structure of approximate ML joint equalization and decoding scheme.
+
 
 
 %--------------------------------------------------------------------------------------------
-\subsection{Time Complexity}
-The decoding process requires $k$ steps of expanding on the tree. Each step expand $2B$ node with costs of a hush computation. Among the steps, $k/p$ steps involve in $q$ random number generation, and $Lq$ multiplication for replay the channel convolution. The selection for the best $B$ candidates of each step need $O(2B)$ operations with proper algorithm. 
+%\subsection{Time Complexity}
+This joint decoding algorithm requires $k$ steps of expanding the tree. Each step expands $2B$ leaves including one hash computations and one Euclidean distance computation. $k/p$ steps involve $q$ random number generations, $Lq$ multiplications to estimate the channel convolution and. The selection for the best $B$ candidates of each step requires $\mathcal{O}(2B)$ operations. The number of required operations per symbol is given in table~\ref{tab_ComplexitySpinal}. 
 
 \begin{table}[!t]
 \renewcommand{\arraystretch}{1.3}
@@ -372,16 +397,16 @@ hash\&RNG  & $2B(p+q)/q$\\
 \hline
 multiplications& $2BL$\\
 \hline
-comparison & $O(2Bp/q)$\\
+comparison & $\mathcal{O}(2Bp/q)$\\
 \hline
 
 \end{tabular}
 
 \end{table}
 
-So we got the number of required operations per symbol of proposed scheme showed in table \ref{tab_ComplexitySpinal}. We can see that if $B$ is constant, the complexity is linear in $k$. And it has no relationship with bit per symbol number $c$. That means we could freely use high-degree modulation without worrying about additional complexity. 
+Interestingly, if $B$ is kept constant, the complexity is linear in the message block length $k$ and independent of the number of bit per symbol $c$. Hence, high-order modulations can be implemented without increasing the number of Euclidean distance to compute. 
 
-In comparison,  Turbo equalization requires several iterations between the BCJR \cite{1055186} decoder and LE-MMSE equalization or MAP equalization. The BCJR algorithm for convolution decoder requires $O(2^{\overline{M}}k)$ operations where $\overline{M}$ is the memory length of the code. The LE-MMSE equalization need $O((N^2+L^2)k)$ operations,where $N$ is the filter length. The MAP equalization need $O(2^{cL}k)$ operations. 
+In comparison,  Turbo equalization requires several iterations between the BCJR \cite{1055186} decoder and LE-MMSE equalization or MAP equalization. The BCJR algorithm for convolution decoder requires $\mathcal{O}(2^{\overline{M}}k)$ operations where $\overline{M}$ is the memory length of the code. LE-MMSE equalization requires $\mathcal{O}((N^2+L^2)k)$ operations, where $N$ is the filter length. The MAP equalization required $\mathcal{O}(2^{cL}k)$ operations. 
 %\begin{table}[!hbp]
 %\label{tab_ComplexityCompare}
 %\centering
@@ -400,104 +425,112 @@ In comparison,  Turbo equalization requires several iterations between the BCJR 
 %\end{tabular}
 %
 %\end{table}
-With a proper selection of parameters, the proposed scheme requires a comparable number of operations per symbols to the LS-MMSE Turbo equalization and much more efficient than the MAP Turbo equalization especially when the channel delay is large. The proposed scheme have some additional advantages in efficiency, such it's parallelizable and it could run during the symbol receiving.
+With a proper selection of parameters, the proposed scheme requires a  number of operations per symbols comparable to the LS-MMSE Turbo equalization and much more efficient than the MAP Turbo equalization especially when the channel delay is large. 
+% The proposed scheme has some additional advantages in efficiency, such it's parallelizable and it could run during the symbol receiving.
 %--------------------------------------------------------------------------------------------
-\section{Simulation Results}
+\section{Simulation Results} \label{sec:results}
 %--------------------------------------------------------------------------------------------
 \subsection{Universal Frequency-selective Channel}
-For easily comparing the results with other schemes, the constellation mapper used in random mapper is $M$-QAM mapper. The universal frequency-selective channels used in this section are proposed by Proakis \cite{proakis}:
+%For easily comparing the results with other schemes, the constellation mapper used in random mapper is $M$-QAM mapper.
+The universal frequency-selective channels used in this section are proposed in \cite{proakis}:
 \begin{equation}
 \begin{split}
-H_{Proakis A}=&[0.04, -0.05, 0.07, -0.21, -0.5,\\ &0.72, 0.36, 0, 0.21, 0.03, 0.07]^T\\
-H_{Proakis B}=&[0.417, 0.815, 0.407]^T\\
-H_{Proakis C}=&[0.227, 0.460, 0.688, 0.460, 0.227]^T\\
+H_{\mbox{\scriptsize Proakis A}}=&[0.04, -0.05, 0.07, -0.21, -0.5,\\ &0.72, 0.36, 0, 0.21, 0.03, 0.07]^T\\
+H_{\mbox{\scriptsize Proakis B}}=&[0.417, 0.815, 0.407]^T\\
+H_{\mbox{\scriptsize Proakis C}}=&[0.227, 0.460, 0.688, 0.460, 0.227]^T\\
 \end{split}
 \end{equation}
-\begin{figure}[!t]
+\begin{figure}[ht]
 \centering
-\includegraphics[width=3 in]{PorakisBCchannelResponse.eps}
-\caption{The amplitude-frequency responses}
+\includegraphics[width=\columnwidth]{PorakisBCchannelResponse.eps}
+\caption{The amplitude-frequency responses of the Proakis channel A,B and C}
 \label{fig_channel}
 \end{figure}
 whose amplitude-frequency response is showed in Fig. \ref{fig_channel}.
 
-We found that the modified 1/2-rate spinal code with parameters: $k=96, B=1024, q=2, p=2$ has the comparability both in the complexity and the BER performance with the 1/2-rate convolution code whose memory length is 6 and generator polynomials equal to 163,135 (expressed in octals) with QPSK signaling scheme over AWGN channel. So they are selected respectively to apply into the proposed scheme and Turbo equalization for comparing there performance over frequency-selective channel.  
-\begin{figure}[!t]
+The parameters for the proposed joint decoding and equalization using spinal codes  are  $k=96, B=1024, q=2, p=2$, yielding a code rate $R=1/2$.
+% We found that the modified rate$-1/2$ spinal code with parameters: $k=96, B=1024, q=2, p=2$
+Comparison with turbo-equalization are provided to assess to performance-complexity trade-off of our proposed scheme. To this aim, a rate$-1/2$ $163,135$ (expressed in octals) convolution code whose memory length is 6 has been implemented. QPSK signaling is used for both schemes.
+% over AWGN channels. So they are selected respectively to apply into the proposed scheme and Turbo equalization for comparing there performance over frequency-selective channel.  
+\begin{figure}[ht]
 \centering
-\includegraphics[width=3 in]{ChAQPSKComparison.eps}
-\caption{The performance of proposed scheme and Turbo equalization over Porakis A channel for QPSK modulation}
+\includegraphics[width=\columnwidth]{ChAQPSKComparison.eps}
+\caption{The performance of proposed scheme and Turbo equalization over Proakis A channel for QPSK modulation}
 \label{fig_ChAQPSKComparison}
 \end{figure}
-
-\begin{figure}[!t]
+\begin{figure}[ht]
 \centering
-\includegraphics[width=3 in]{ChBQPSKComparison.eps}
-\caption{The performance of proposed scheme and Turbo equalization over Porakis B channel for QPSK modulation}
+\includegraphics[width=\columnwidth]{ChBQPSKComparison.eps}
+\caption{The performance of proposed scheme and Turbo equalization over Proakis B channel for QPSK modulation}
 \label{fig_ChBQPSKComparison}
 \end{figure}
-
-\begin{figure}[!t]
+\begin{figure}[ht]
 \centering
-\includegraphics[width=3.1 in]{ChCQPSKComparison.eps}
-\caption{The performance of proposed scheme and Turbo equalization over Porakis C channel for QPSK modulation}
+\includegraphics[width=\columnwidth]{ChCQPSKComparison.eps}
+\caption{The performance of proposed scheme and Turbo equalization over Proakis C channel for QPSK modulation}
 \label{fig_ChCQPSKComparison}
 \end{figure}
-Fig. \ref{fig_ChAQPSKComparison}, Fig. \ref{fig_ChBQPSKComparison} and Fig. \ref{fig_ChCQPSKComparison}  present the performance of proposed scheme and Turbo equalization at the fifth iteration over channels mentioned before.  The results show that the proposed scheme could get better performance when the block length is short over highly frequency-selective channels . While, it shows the bigger gap to the theoretical bound with the lower frequency-selective channel. It is because the sub-optimal ML equalization requires more time complexity to erase the final gap to the theoretical bound.
+
+Fig. \ref{fig_ChAQPSKComparison}, Fig. \ref{fig_ChBQPSKComparison} and Fig. \ref{fig_ChCQPSKComparison}  present the performance of the proposed scheme and comparison with Turbo equalization after 5 iterations over Proakis A,B and C channel respectively. The results show that the proposed scheme outperforms turbo-equalization when the block length is short for highly frequency-selective channels.
+However, a performance loss to the theoretical bound is observed with the lower frequency-selective channel, due to the sub-optimal equalization.
+% requires more time complexity to erase the final gap to the theoretical bound.
 \begin{figure}[!t]
 \centering
-\includegraphics[width=3.5 in]{16QAMComparison.eps}
-\caption{The performance of proposed scheme and Turbo equalization at the fifth iteration for 16QAM modulation}
+\includegraphics[width=\columnwidth]{16QAMComparison.eps}
+\caption{The performance of proposed scheme and Turbo equalization at the fifth iteration for $16-$QAM modulation}
 \label{fig_16QAMComparison}
 \end{figure}
 
-Fig. \ref{fig_16QAMComparison} shows the performances of proposed scheme and Turbo equalization evaluated for 16QAM signaling scheme. To stay comparability with Turbo equalization and maintain the code rate at 1/2. The sub-block length $p$ of modified Spinal code is adjusted to 1. 
-
-From Fig. \ref{fig_16QAMComparison} we can see the performances gap between proposed scheme and Turbo equalization over Proakis B and Proakis C channel expand in the signaling scheme of 16QAM. For these highly frequency-selective channels, it's hard for the equalizer of Turbo equalization to get a feed of estimated date with BER lower than the threshold to allowed the "turbo effect" primed. Whereas the proposed scheme isn't a iterate structure, so their is no "BER threshold" problem.%This is just my analise. Don't know if it's reasonable.
+Fig. \ref{fig_16QAMComparison} shows the performances of the proposed scheme for $16-$QAM signaling and its comparison with Turbo equalization.
+As $c$ is increased, the puncturing factor is set to $p=1$ to keep the code rate $R=1/2$. We can see that the performance gap between our proposed scheme and Turbo equalization over Proakis B and Proakis C channel increases compared to QPSK signaling. For these highly frequency-selective channels, it becomes more difficult for the turbo equalization to get a reliable feedback of the estimated data for low SNR, which is not the case for the porposed scheme.
+%Whereas the proposed scheme isn't a iterate structure, so their is no "BER threshold" problem.%This is just my analise. Don't know if it's reasonable.
 
 %--------------------------------------------------------------------------------------------
 \subsection{Underwater Acoustic Channels Extracted from Sea Experiment}
 
 %-------------------------------------------------------------------
 \subsubsection{Shallow Sea Underwater Acoustic Channel}
-This channel is estimated from the data of an underwater acoustic communication experiment carry out on the South China Sea in 2011 by Institute of Acoustic(IOA), Chinese academy of sciences (CAS). The channel coefficients and  amplitude-frequency responses are represent in Fig. \ref{fig_ShallowChannel}. The channel amplitude-frequency response is smooth except a notch at the normalized frequency 0.2. 
-\begin{figure}[!t]
+This channel is estimated from the data of an underwater acoustic communication experiment carried out on the South China Sea in 2011 by the Institute of Acoustic (IOA), Chinese Academy of Sciences (CAS). The channel coefficients and  amplitude-frequency responses are represent in Fig. \ref{fig_ShallowChannel}. The channel amplitude-frequency response is smooth except for a notch at the normalized frequency 0.2. 
+\begin{figure}[ht]
 \centering
-\includegraphics[width=3.5 in]{ShallowChannel.eps}
+\includegraphics[width=\columnwidth]{ShallowChannel.eps}
 \caption{The amplitude-time and amplitude-frequency responses of a shallow-sea UAC}
 \label{fig_ShallowChannel}
 \end{figure}
-The performance of proposed scheme and the Turbo equalization over this channel is presented in Fig. \ref{fig_ShallowQPSKComparison}. The proposed scheme also shows the stable performance with small block length.
-\begin{figure}[!t]
+The performance of the proposed scheme and the Turbo equalization over this channel is compared in Fig.\ref{fig_ShallowQPSKComparison}. The proposed scheme also shows stable performance with small block length.
+\begin{figure}[ht]
 \centering
-\includegraphics[width=3.5 in]{ShallowQPSKComparison.eps}
-\caption{The performance of proposed scheme and Turbo equalization over shallow-sea UAC}
+\includegraphics[width=\columnwidth]{ShallowQPSKComparison.eps}
+\caption{The performance of the proposed scheme and Turbo equalization over shallow-sea UAC}
 \label{fig_ShallowQPSKComparison}
 \end{figure}
 %--------------------------------------------------------------------------
 \subsubsection{Deep Sea Underwater Acoustic Channel}
-Fig. \ref{fig_DeepChannel} shows the deep sea channel extracted form the data of an experiment carry out in South China Sea at 2013 by IOA, CAS. The water depth of experiment area is 5000m. The distance between sender an receiver is 69km which exactly in the second  shadow zone of  the transmission loss curve. The channel is deteriorated by a strong multipath signal  with a delay if 100 symbol periods.
+Fig.\ref{fig_DeepChannel} shows the deep sea channel extracted from the data of an experiment carried out in South China Sea in 2013 by IOA, CAS. The water depth of the experiment area is 5000m. The distance between the transmitter and the receiver is 69km which is exactly in the second  shadow area of the transmission loss curve. The channel is affected by a severe multipath with a delay of 100 symbol periods.
 
-\begin{figure}[!t]
+\begin{figure}[ht]
 \centering
-\includegraphics[width=3 in]{DeepChannel.eps}
+\includegraphics[width=\columnwidth]{DeepChannel.eps}
 \caption{The amplitude-time and amplitude-time responses of deep-sea underwater acoustic channel}
 \label{fig_DeepChannel}
 \end{figure}
-The results is showed in Fig. \ref{fig_DeepQPSKComparison} 
+The performance comparison is illustrated in Fig.\ref{fig_DeepQPSKComparison}.
 
-\begin{figure}[!t]
+\begin{figure}[ht]
 \centering
-\includegraphics[width=3.5 in]{DeepQPSKComparison.eps}
-\caption{The performance of proposed scheme and Turbo equalization over deep-sea UAC}
+\includegraphics[width=\columnwidth]{DeepQPSKComparison.eps}
+\caption{The performance of proposed the scheme and Turbo equalization over deep-sea UAC}
 \label{fig_DeepQPSKComparison}
 \end{figure}
 
 %One thing to be mentioned, the filter length of Turbo Equalization is  set to 120 to equal with the channel length.  I'm not sure if it is the proper method to deal with the large delay channel? Would a equalization with such long filter practicable? So I don't know if we should drop this simultaion. I just want to show that complexity for such a large delay channel is still acceptable. But I found it's hard to assess it. 
 
-\section{Conclusion}
-This paper represent the design and performance analysis of modified spinal code and a joint equalization and decoding scheme using the code. The approximate ML method is applied in the scheme with linear time complexity.  This non-iterative receiver scheme shows stable and acceptable performance for a larger range of channels in small code block length. The performance gap between the proposed scheme and the LE-MMSE turbo equalization is as large as 6dB over the highly frequency-selective Proakis B channel using 16QAM modulation method. 
+\section{Conclusion} \label{sec:conclusion}
+This paper presents the design and performance analysis of a modified spinal code used for underwater acoustic transmissions, together with a joint equalization and decoding scheme. A tree-based suboptimal decoding algorithm is implemented with lower complexity, where decoding and equalization are performed jointly on a non-time varying underwater acoustic channel (UAC). This non-iterative receiver scheme shows stable and acceptable performance for a larger range of channels when small block lengths are considered. The performance gap between the proposed scheme and the LE-MMSE turbo equalization is as large as 6dB over the highly frequency-selective Proakis B channel using 16QAM modulation method. 
 
-This paper shows a newly attempt to overcome the ISI in UAC with a limited code block length. It also leaves aspect to explore for the future work. First, the approximate is not perfect enough to remove all ISI totally. The performance always leaves a small gap to the theoretical bound. Second, the addition of channel estimation and the performance analysis for time-varying channels is also interesting to explore. The last but not the least, the coding scheme is newly designed, their is a bunch of similar structure and realizations. It's also interesting to seek the one for better overcoming the channel ISI of UAC.
+The aim of implementing small length transmission blocks is then to provide efficient transmission schemes on fast time-varying UAC. The perspective of this work relies mainly in implementing the proposed transmission scheme for time-varying UAC and also to apply adaptive equalization for further comparisons.
+
+%This paper shows a newly attempt to overcome the ISI in UAC with a limited code block length. It also leaves aspect to explore for the future work. First, the approximate is not perfect enough to remove all ISI totally. The performance always leaves a small gap to the theoretical bound. Second, the addition of channel estimation and the performance analysis for time-varying channels is also interesting to explore. The last but not the least, the coding scheme is newly designed, their is a bunch of similar structure and realizations. It's also interesting to seek the one for better overcoming the channel ISI of UAC.
 
 
 
