@@ -32,6 +32,11 @@ C.~Laot, A.~Glavieux, and J.~Labat, ``Turbo equalization: adaptive equalization
   and channel decoding jointly optimized,'' \emph{IEEE Journal on Selected
   Areas in Communications}, vol.~19, no.~9, pp. 1744--1752, 2001.
 
+\bibitem{1006557}
+M.~Tuchler, R.~Koetter, and A.~C. Singer, ``Turbo equalization: principles and
+  new results,'' \emph{IEEE Transactions on Communications}, vol.~50, no.~5,
+  pp. 754--767, May 2002.
+
 \bibitem{perry2012spinal}
 J.~Perry, P.~A. Iannucci, K.~E. Fleming, H.~Balakrishnan, and D.~Shah, ``Spinal
   codes,'' in \emph{Proceedings of the ACM SIGCOMM 2012 conference on

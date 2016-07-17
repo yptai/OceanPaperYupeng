@@ -1,4 +1,14 @@
 % Encoding: UTF-8
+@ARTICLE{1006557,
+author={M. Tuchler and R. Koetter and A. C. Singer},
+journal={IEEE Transactions on Communications},
+title={Turbo equalization: principles and new results},
+year={2002},
+volume={50},
+number={5},
+pages={754-767},
+month={May}
+}
  
 @inproceedings{perry2012spinal,
   title={Spinal codes},

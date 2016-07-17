@@ -123,26 +123,26 @@
 % not capitalized unless they are the first or last word of the title.
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
-\title{Joint Equalization and Decoding Scheme\\ using Modified Spinal Codes\\ for Underwater Communications}
+\title{Joint Equalization and Decoding Scheme\\ Using Modified Spinal Codes\\ for Underwater Communications}
 
 
 % author names and affiliations
 % use a multiple column layout for up to three different
 % affiliations
 \author{\IEEEauthorblockN{Yupeng TAI}
-\IEEEauthorblockA{State Key Laboratory\\ Acoustics
-Institute of Acoustics,\\
+\IEEEauthorblockA{State Key Laboratory of Acoustics\\
+Institute of Acoustics\\
 Chinese Academy of Sciences \\
 Beijing, China}
 \and
-\IEEEauthorblockN{Frederic GUILLOUD, Christophe LAOT\\ and Raphael LE BIDAN}
+\IEEEauthorblockN{Fr\'{e}d\'{e}ric GUILLOUD, Christophe LAOT\\ and Rapha\"{e}l LE BIDAN}
 \IEEEauthorblockA{SC department\\ 
 Telecom Bretagne Institut Mines-Telecom\\ 
 Brest, France}
 \and
 \IEEEauthorblockN{Haibin WANG}
-\IEEEauthorblockA{State Key Laboratory\\ Acoustics
-Institute of Acoustics,\\
+\IEEEauthorblockA{State Key Laboratory of Acoustics\\
+Institute of Acoustics\\
 Chinese Academy of Sciences \\
 Beijing, China}}
 
@@ -183,7 +183,7 @@ Beijing, China}}
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
-Intersymbol interference (ISI) cancellation over frequency-selective underwater acoustic channel (UAC) is usually performed efficiently using iterative equalization. To this aim, an interleaver is required between the error correction scheme and the modulation scheme, and the longer the interleaver block length the better the performance. However, in the case of time-varying UAC, the length of the interleaver should not be higher than the channel coherence time, thus limiting the performance. Hence, for time-varying UAC with a low coherence time, small interleaver block length have to be used. In this paper, we propose a small block length coding scheme and its associate joint equalization and decoding algorithm based on Spinal codes. We show its efficiency over static large delay spread channels and static UAC: more precisely, simulation results show that the proposed scheme achieves a higher bit error rate than the Turbo equalization scheme with the same block length, especially for high spectral efficiency modulations. Simulations of proposed scheme over UAC obtained from underwater sea experiments are also presented which show the  promising performances.
+Intersymbol interference (ISI) cancellation over frequency-selective underwater acoustic channel (UAC) is usually performed efficiently using iterative equalization. To this aim, an interleaver is required between the error correction scheme and the modulation scheme, and the longer the interleaver block length the better the performance. However, in the case of time-varying UAC, the length of the interleaver should not be longer than the channel coherence time, thus limiting the performance. Hence, for time-varying UAC with a low coherence time, small interleaver block length have to be used. In this paper, we propose a small block length coding scheme and its associate joint equalization and decoding algorithm based on Spinal codes. We show its efficiency over static large delay spread channels and static UAC: more precisely, simulation results show that the proposed scheme achieves a higher bit error rate than the Turbo equalization scheme with the same block length, especially for high spectral efficiency modulations. Simulations of proposed scheme over UAC obtained from underwater sea experiments are also presented which show the  promising performances.
 \end{abstract}
 
 % no keywords
@@ -205,7 +205,7 @@ Intersymbol interference (ISI) cancellation over frequency-selective underwater 
 %------------------------------------------------------------------------------------------
 \section{Introduction}
 % no \IEEEPARstart
-Underwater Acoustic Channels (UACs) are known as to be very difficult telecommunication channel, due to time-varying long intersymbol interferences (ISI), making ISI cancellation an active topic for UAC digital communications. Turbo equalization\cite{douillard1995iterative} can be performed to improve the error rate performance for ISI-transmissions: an interleaver is implemented between the error correction scheme and the modulation.
+Underwater Acoustic Channels (UACs) are known as to be very difficult telecommunication channels, due to time-varying long intersymbol interferences (ISI), making ISI cancellation an active topic for UAC digital communications. Turbo equalization\cite{douillard1995iterative} can be performed to improve the error rate performance for ISI-transmissions: an interleaver is implemented between the error correction scheme and the modulation.
 In a turbo-equalization receiver, the performance benefits from the interleaver gain through an iterative process between the equalizer and the decoder. The equalizer produces the estimates of the transmitted symbols using different methods. The maximum likelihood (ML) estimation is the optimal method in getting the minimum bit error rate (BER). However, the complexity of such methods is often to high to be implemented, especially for channels with large delay spread like UACs. Lower complexity equalizer like linear optimization algorithms are then implemented, such as zero forcing (ZF) or minimum mean squared error (MMSE) estimation.
 Results shows that the linear MMSE (LE-MMSE) turbo equalizer could completely remove the ISI for a time-invariant frequency-selective channel with an acceptable complexity \cite{laot2001turbo,1006557}, providing that the interleaver block length is sufficiently long as the delay spread of the considered UAC is high. On the other hand, for time-varying channels, increasing the interleaver block length above the coherence time  of the channel will occur a dramatic loss in performance since the channel is usually assumed to be constant for the block length for non-adaptive equalization which is considered in this paper. So the question is: how to improve the equalization performance when the coherence time of the UAC is low, if the interleaver length cannot be increased?
 
@@ -230,7 +230,7 @@ The remainder of this paper is organized as follows: in Section~\ref{sec:TXschem
 \caption{The core hash structure}
 \label{fig_hash}
 \end{figure}
-The transmission scheme is illustrated in Fig.\ref{fig_tranScheme}. Though spinal codes were  proposed as rateless codes, we restrict the spinal code encoder to a fixed code rate denoted $R$. Length-$k$ blocks of independent information bits ${\bm m}$ are fed to a hash function denoted H which produces $k$ length-$v$ binary vector $\bm s_i,\,1\leq i \leq k$, referred to as the seeds. The generation of the seeds can be implemented as an iterative process illustrated in Fig.\ref{fig_hash}. The $k$ bits $m_i$ are fed to the H function which is seeded by $\bm s_{i-1}$. The output is seed $\bm s_i$. The process is initiated by seed $\bm s_0$ which is common to all messages $\bm m$ to be encoded and which is known by the receiver. The set of seeds $\bm s_i$ is then punctured by a factor $p$, meaning that one seed every $p$ seeds is forwarded to the next transmitter function. Hence the transmitted seeds are $\bm s_{pi+1}$ for $1\leq i \leq k$. After puncturing, the remaining seeds are used to feed a random number generator (RNG) to generate $q$ symbols per seed, denoted ${\bm x_i} = \{x_{i,j\}_{1\leq j \leq q}}$ for seed $\bm s_i$. We assume that the cardinal of the constellation is denoted by $2^c$, i.e. each symbol $x_{i,j}$ represents $c$ bits. One possible solution to generate the symbols to be transmitted is illustrated in Fig.\ref{fig_mapper} where the lowest significant bits of the random numbers are mapped to an I/Q constellation mapper.
+The transmission scheme is illustrated in Fig.\ref{fig_tranScheme}. Though spinal codes were  proposed as rateless codes, we restrict the spinal code encoder to a fixed code rate denoted $R$. Length-$k$ blocks of independent information bits ${\bm m}$ are fed to a hash function denoted H which produces $k$ length-$v$ binary vector $\bm s_i,\,1\leq i \leq k$, referred to as the seeds. The generation of the seeds can be implemented as an iterative process illustrated in Fig.\ref{fig_hash}. The $i$th bit of $\bm m$, $m_i$ is fed to the H function which is seeded by $\bm s_{i-1}$. The output is seed $\bm s_i$. The process is initiated by seed $\bm s_0$ which is common to all messages $\bm m$ to be encoded and which is known by the receiver. The set of seeds $\bm s_i$ is then punctured by a factor $p$, meaning that one seed every $p$ seeds is forwarded to the next transmitter function. Hence the transmitted seeds are $\bm s_{pi+1}$ for $1\leq i \leq k$. After puncturing, the remaining seeds are used to feed a random number generator (RNG) to generate $q$ symbols per seed, denoted ${\bm x_i} = \{x_{i,j}\}, 1\leq j \leq q$ for seed $\bm s_i$. We assume that the cardinal of the constellation is denoted by $2^c$, i.e. each symbol $x_{i,j}$ represents $c$ bits. One possible solution to generate the symbols to be transmitted is illustrated in Fig.\ref{fig_mapper} where the lowest significant bits of the random numbers are mapped to an I/Q constellation mapper.
 
 The coding rate of the transmission is given by $R=kp/cqk=p/cq$, and can thus be tuned over a wide range by varying the puncturing rate $p$, the constellation size $2^c$ or the number of symbols per seed $q$. Fig.\ref{fig_puncturing} illustrates the case where $k=6$, $p=3$ and $q=3$, that is a code rate $R=1/c$.
 
@@ -298,12 +298,18 @@ where $E_s$ is the average energy of $y_n-w_n$ and where $N_0$ is the mono-later
 
 \subsection{Near-ML Spinal Code Decoder} \label{sec:nearML}
 The best error rate can be obtained by maximum likelihood (ML) decoding when the transmitted information is uniformly distributed.
-ML decoding for sequences corrupted by AWGN is obtained by minimizing the euclidean distance between the received sequence and all the possibly transmitted sequences, that is:
+ML decoding for sequences corrupted by AWGN is obtained by minimizing the Euclidean distance between the received sequence and all the possibly transmitted sequences, that is:
 \begin{equation}
 \widehat{\bm m}=\underset{{\bm m}\in\{0,1\}^k}{\arg\min}\Vert{\bm y}-{\bm x}({\bm m})\Vert^2
 \label{equ_ml}
 \end{equation}
-However the number of operations of ML decoding scales exponentially in $\mathcal{O}(2^k)$ with the information block length. Thus sub-optimal decoding algorithms are of interest. A sub-optimal algorithm for spinal codes decoding is also proposed in \cite{perry2012spinal} which is inspired by a popular complexity reduction named \emph{M-algorithm} \cite{Anderson1984}. The idea is to represent the spinal code encoding process as a bit-wise tree structure. For each new binary information to be encoded, two branches are defined (corresponding to a 0 or 1 information bit) connecting the same tree parent-leaf to 2 child leaves. For each child-leaf, a partial Euclidean distance can be computed. For each new information bit, the number of leaves is multiplied by a factor 2, resulting in $2^k$ leaves in the final tree.
+However the number of operations of ML decoding scales exponentially in $\mathcal{O}(2^k)$ with the information block length. Thus sub-optimal decoding algorithms are of interest. A sub-optimal algorithm for spinal codes decoding is also proposed in \cite{perry2012spinal} which is inspired by a popular complexity reduction named \emph{M-algorithm} \cite{Anderson1984}. The idea is to replay the spinal code encoding process as a bit-wise tree structure. For each new binary information to be encoded, two branches are defined (corresponding to a 0 or 1 possible value) connecting the same tree parent-leaf to 2 child leaves. For each child-leaf, a partial Euclidean distance can be computed followed the Equ.\ref{equ_near_ml}. 
+\begin{equation}
+\Vert\textbf{y}_{i}-\textbf{x}_{i}(s_{i})\Vert^2
+\label{equ_near_ml}
+\end{equation}
+where $textbf{y}_{i}$ and $\textbf{x}_{i}(s_{i}$ is the sub-vectors of observed symbols and the candidate encoded vector containing symbols from the seed $s_i$.
+For each new information bit, the number of leaves is multiplied by a factor 2, resulting in $2^k$ leaves in the final tree.
 
 Since the minimum Euclidean distance is to be found, a complexity reduction can be offered by selecting at each new information bit the leaves corresponding to the $B$ lowest Euclidean distances. Fig.\ref{fig_decoderTree} illustrates the complexity reduction algorithm when $B=2$ and $k=4$: the blue leaves represent the leaves corresponding to the lowest partial Euclidean distances, the black ones represent the pruned leaves (when the partial Euclidean distance is too high). The result of the decoder is then the sequence of bits corresponding to the minimum Euclidean distance among the $B$ remaining leaves of the last information bit, and it is illustrated by the red leaves in Fig.\ref{fig_decoderTree}.
 
@@ -366,16 +372,17 @@ The \emph{M-algorithm} is simple but very efficient in decoding Spinal codes. Th
 \end{figure}
 
 \subsection{The Near-ML joint Decoding and Equalization}
-The tree-based low complexity decoding algorithm described in Section~\ref{sec:nearML} can be easily adapted to include the equalization step thanks to the knowledge of the channel coefficients which are assumed to be estimated perfectly. Based on Eq.(\ref{equ_ml}) and without considering any seed puncturing ($p=1$), the Euclidean distance is computed by:
-%\begin{equation}
-%\sum_{i=1}^{\frac{k}{p}}\sum_{j=q(i-1)+1}^{qi}\vert y_{j}-\sum_{l=1}^L x_{j-l}(s_{t})\vert^2
-%\label{equ_costEqu}
-%\end{equation}
+The tree-based low complexity decoding algorithm described in Section~\ref{sec:nearML} can be easily adapted to include the equalization step thanks to the knowledge of the channel coefficients which are assumed to be estimated perfectly. 
+Based on Eq.(\ref{equ_near_ml}) and without considering any seed puncturing ($p=1$), the partial Euclidean distance of the $i$th-level nodes of the tree  is computed by:
 \begin{equation}
-\sum_{i=1}^{\frac{qk}{p}}\left\vert y_{i}-\sum_{l=1}^L h_l x_{i-l}\right\vert^2
+\sum_{j=q(i-1)+1}^{qi}\vert y_{j}-\sum_{l=1}^L x_{j-l}(s_{t})\vert^2
 \label{equ_costEqu}
 \end{equation}
-%where $t=\lfloor\frac{j-l}{q}\rfloor p+1$.
+%\begin{equation}
+%\sum_{i=1}^{\frac{qk}{p}}\left\vert y_{i}-\sum_{l=1}^L h_l x_{i-l}\right\vert^2
+%\label{equ_costEqu}
+%\end{equation}
+where the sub-vectors $\textbf{x}_i$ and $\textbf{y}_i$ are further break into $x_{(i-1)q+1},x_{(i-1)q+2},...,x_{qi}$, $y_{(i-1)q+1},y_{(i-1)q+2},...,y_{qi}$, and the index of the seed, $t=\lfloor\frac{j-l}{q}\rfloor +1$.
 
 
 
